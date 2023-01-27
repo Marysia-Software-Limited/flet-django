@@ -51,9 +51,10 @@ django-extensions = "*"
 django-rest-framework = "*"
 werkzeug = "*"
 
-flet-core = {path = "../flet/sdk/python/packages/flet-core", develop = true}
-flet = {path = "../flet/sdk/python/packages/flet", develop = true}
-flet-routed-app = {path = "../flet-routed-app", develop = true}
+# for local development only
+#flet-core = {path = "../flet/sdk/python/packages/flet-core", develop = true}
+#flet = {path = "../flet/sdk/python/packages/flet", develop = true}
+#flet-routed-app = {path = "../flet-routed-app", develop = true}
 
 
 [build-system]
