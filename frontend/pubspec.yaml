@@ -32,6 +32,7 @@ dependencies:
 
   flet:
     path: ../../flet/package
+  # For local development only.
 
   url_strategy: ^0.2.0
   integration_test:
@@ -46,7 +47,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
   # Docs: https://pub.dev/packages/flutter_launcher_icons_maker
   flutter_launcher_icons_maker: "^0.10.1"
