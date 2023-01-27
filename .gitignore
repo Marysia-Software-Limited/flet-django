@@ -5,5 +5,6 @@
 .tox
 .venv
 node_modules
-poetry.lock
+*.lock
 /demo.db
+/.idea/
