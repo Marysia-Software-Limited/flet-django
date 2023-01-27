@@ -7,8 +7,8 @@ authors = ["beret <beret@hipisi.org.pl>"]  # Here is a place for You'r name, con
 maintainers = ["Marysia Software Limited <office@marysia.app>"]  # Here is You'r advertising site.
 readme = "README.md"
 homepage = "https://marysia.app"
-repository = "https://github.com/yunojuno/poetry-template"
-documentation = "https://github.com/yunojuno/poetry-template"
+repository = "https://github.com/Marysia-Software-Limited/flet-django"
+documentation = "https://github.com/Marysia-Software-Limited/flet-django"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Web Environment",

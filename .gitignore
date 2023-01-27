@@ -7,4 +7,5 @@
 node_modules
 *.lock
 /demo.db
-/.idea/
+.idea
+.run
