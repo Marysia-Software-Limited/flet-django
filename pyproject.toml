@@ -24,7 +24,7 @@ classifiers = [
 packages = [{ include = "flet_django" }]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 django = "^4.0"
 flet = "*"
 flet-routed-app = "*"
@@ -51,10 +51,12 @@ django-extensions = "*"
 django-rest-framework = "*"
 werkzeug = "*"
 
+
 # for local development only
 flet-core = {path = "../flet/sdk/python/packages/flet-core", develop = true}
 flet = {path = "../flet/sdk/python/packages/flet", develop = true}
-flet-routed-app = {path = "../flet-routed-app", develop = true}
+#flet-routed-app = {path = "../flet-routed-app", develop = true}
+#django = {path = "../django", develop = true}
 
 
 [build-system]
