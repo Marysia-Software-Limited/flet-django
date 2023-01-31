@@ -7,12 +7,13 @@ import flet as ft
 from flet_core import Control
 
 from .routes import FtViewRoute
+from .types import PAGE_CLASS
 from .views import FtView
 
 
 @dataclass
 class FtMiddleware(ABC):
-    page: ABC
+    page: PAGE_CLASS
     route: str
 
     def parse_route(self):
@@ -52,7 +53,7 @@ def urls_middleware(urls: tuple):
             try:
                 result = resolve(self.route, urls)
                 return FtViewRoute(
-                    control=result.function,
+                    control=result.func,
                     name=result.url_name,
                     route=self.route,
                     args=result.args,

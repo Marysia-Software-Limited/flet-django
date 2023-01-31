@@ -1,85 +1,38 @@
-from datetime import datetime
-
 import flet as ft
-from django.urls import path
-from django.utils.translation import gettext as _
+from django.urls import include, path
 
 from flet_django.pages import GenericPage, GenericApp
-from flet_django.middlewares import simple_view_middleware, urls_middleware
-from flet_django.views import FtView
+from flet_django.views import ft_view
+from flet_django.navigation import Destiny
+
+import tasks.ft_urls
 from tasks.todo_app import TodoApp
-from tasks.models import Task
-# from .apps import
-from django.apps import apps as django_apps  # https://docs.djangoproject.com/en/4.1/ref/applications/
-from flet_django.controls import ModelTableControl
-from dateutil import relativedelta
 
 
-def home(_page: GenericPage):
-    return FtView(
-        controls=[
-            ft.AppBar(title=ft.Text("ToDo app"), bgcolor=ft.colors.SURFACE_VARIANT),
-            TodoApp()
-        ]
-    )
-
-
-def tasks(_page: GenericPage, date_from=None, period: relativedelta = None, title: str = "Tasks"):
-    filters = {}
-    if date_from is not None:
-        filters["date_added__gte"] = date_from
-        if period is not None:
-            filters["date_added__lt"] = date_from + period
-    return FtView(
-        controls=[
-            ft.AppBar(title=ft.Text(title), bgcolor=ft.colors.SURFACE_VARIANT),
-            ModelTableControl(
-                model=Task,
-                filters=filters
-            )
-        ]
-    )
-
-
-def month_archive(page: GenericPage, year: int, month: int):
-    return tasks(
+def home(page: GenericPage):
+    return ft_view(
         page,
-        datetime.datetime(year=year, month=month, day=1),
-        relativedelta.relativedelta(months=1),
-        "Monthly Tasks"
+        controls=[TodoApp()],
+        app_bar_params=dict(title="ToDo app")
     )
 
 
-def year_archive(page: GenericPage, year: int):
-    return tasks(
-        page,
-        datetime.datetime(year=year, month=1, day=1),
-        relativedelta.relativedelta(years=1),
-        "Yearly Tasks"
-    )
-
-
-def tasks_2003(page: GenericPage):
-    return tasks(
-        page,
-        datetime.datetime(year=2023, month=1, day=1),
-        relativedelta.relativedelta(years=1),
-        "2023 Tasks"
-    )
-
-
-urlpatterns = (
-    path('tasks/2023/', tasks_2003),
-    path('tasks/<int:year>/', year_archive),
-    path('tasks/<int:year>/<int:month>/', month_archive),
-    path('tasks/', tasks),
+urlpatterns = [
+    path('tasks', include(tasks.ft_urls)),
     path('', home, name="home")
-)
-
-middlewares = [
-    urls_middleware(urls=urlpatterns)
 ]
 
+destinations = [
+    Destiny("/", icon=ft.icons.HOME, selected_icon=ft.icons.HOME_OUTLINED, label="home"),
+    Destiny("/tasks", icon=ft.icons.LIST, selected_icon=ft.icons.LIST_OUTLINED, label="tasks", action=False),
+]
+
+app_bar_params = dict(bgcolor=ft.colors.SURFACE_VARIANT)
+view_params = dict(app_bar_params=app_bar_params)
+
 main = GenericApp(
-    middlewares=middlewares
+    urls=urlpatterns,
+    destinations=destinations,
+    init_route="/",
+    view_params=view_params
 )

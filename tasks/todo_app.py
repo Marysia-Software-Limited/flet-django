@@ -204,20 +204,3 @@ class TodoApp(UserControl):
 
         self.items_left.value = f"{count} {_('wills') if count > 1 else _('will')} {_('to be done.')}"
         super().update()
-
-
-def main(page: Page):
-    page.title = _("Let it be.")
-    page.horizontal_alignment = "center"
-    page.scroll = "adaptive"
-    page.update()
-
-    # create application instance
-    app = TodoApp()
-
-    # add application's root control to the page
-    page.add(app)
-
-
-if __name__ == '__main__':
-    flet.app(target=main)

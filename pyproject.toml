@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flet-django"
-version = "0.1.0"
+version = "0.2.0"
 description = "Django Flutter Framework."
 license = "MIT"
 authors = ["beret <beret@hipisi.org.pl>"]  # Here is a place for You'r name, contributors welcome!
@@ -12,14 +12,25 @@ documentation = "https://github.com/Marysia-Software-Limited/flet-django"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Web Environment",
+    "Environment :: MacOS X",
+    "Environment :: WebAssembly",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: X11 Applications",
+    "Environment :: Mobile",
+    "Environment :: Mobile :: iOS",
+    "Environment :: Mobile :: Android",
     "Framework :: Django",
     "Framework :: Django :: 4.0",
     "Framework :: Django :: 4.1",
+    "Framework :: Flutter",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Dart",
+    "Topic :: Desktop Environment"
 ]
 packages = [{ include = "flet_django" }]
 
@@ -27,7 +38,7 @@ packages = [{ include = "flet_django" }]
 python = "^3.10"
 django = "^4.0"
 flet = "*"
-flet-routed-app = "*"
+flet-core = "*"
 
 [tool.poetry.dev-dependencies]
 black = "*"
@@ -53,8 +64,8 @@ werkzeug = "*"
 
 
 # for local development only
-flet-core = {path = "../flet/sdk/python/packages/flet-core", develop = true}
-flet = {path = "../flet/sdk/python/packages/flet", develop = true}
+#flet-core = {path = "../flet/sdk/python/packages/flet-core", develop = true}
+#flet = {path = "../flet/sdk/python/packages/flet", develop = true}
 #flet-routed-app = {path = "../flet-routed-app", develop = true}
 #django = {path = "../django", develop = true}
 
