@@ -104,7 +104,8 @@ class GenericPage:
         self.update()
 
     def append_view(self, view: Callable):
-        self.ft_page.views.append(view(self))
+        view_control = view(self)
+        self.ft_page.views.append(view_control)
 
     def update(self):
         self.ft_page.update()

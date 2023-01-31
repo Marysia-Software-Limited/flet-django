@@ -35,10 +35,13 @@ def simple_view_middleware(
     class SimpeViewMiddleware(GenericMiddleware):
 
         def parse_route(self):
-            return ft_view(
-                controls=controls,
-                **kwargs
-            )
+            def __get_view(page):
+                return ft_view(
+                    page=page,
+                    controls=controls,
+                    **kwargs
+                )
+            return __get_view
 
     return SimpeViewMiddleware
 

@@ -3,7 +3,7 @@
 
 ## Rapid developing db based app. Zero boilerplate code.
 
-I hate boilerplate code. I hated it all my life. I made so many steps to remove this mental parasites far from me. And now, with Flet and Django I'm so close to get my ideal. For this moment I made as PoC a clone of a standard Flet ToDo application. All what i change is write all directly inside of Django. Flet code is run directly on the backend, so we not need any dedicated communication layer. Next what I done is generic data table control. This is a simple control able to create a data table for any Django model. All with searching and sorting.
+I hate boilerplate code. I hated it all my life. I made so many steps to remove this mental parasites far from me. And now, with Flet and Django I'm so close to get my ideal. For this moment I made as PoC a clone of a standard Flet ToDo application. All what I change is write all directly inside Django. Flet code is run directly on the backend, so we not need any dedicated communication layer. Next what I'm done is generic data table control. This is a simple control able to create a data table for any Django model. All with searching and sorting.
 
 ## Roadmap:
 * [x] Create package for a framework
@@ -51,7 +51,7 @@ I hate boilerplate code. I hated it all my life. I made so many steps to remove 
 ## Flutter view
 
 - A framework based on flutter views. Flutter view is a function which takes page as a first argument, and returns instance of flet.View class.
-- For simplicity we can use ft_view factory
+- For simplicity, we can use ft_view factory
 - Let create a simple flutter view example in file main_app.py:
     ```python
     import flet as ft

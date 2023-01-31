@@ -30,9 +30,10 @@ destinations = [
 app_bar_params = dict(bgcolor=ft.colors.SURFACE_VARIANT)
 view_params = dict(app_bar_params=app_bar_params)
 
-main = GenericApp(
-    urls=urlpatterns,
-    destinations=destinations,
-    init_route="/",
-    view_params=view_params
-)
+# main = GenericApp(
+#     urls=urlpatterns,
+#     destinations=destinations,
+#     init_route="/",
+#     view_params=view_params
+# )
+main = GenericApp(controls=[ft.Text("Hello World!"),])

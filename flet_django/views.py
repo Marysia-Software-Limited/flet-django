@@ -35,13 +35,18 @@ def get_app_bar(page, title: str = '', action_params: Optional[dict] = None, **k
 def ft_view(
     page: PAGE_CLASS,
     controls: list[Control],
-    view_class: Type[GenericView] = GenericView,
+    view_class: Type[GenericView] = ft.View,
     nav_bar_params: Optional[dict] = None,
     app_bar_params: Optional[dict] = None,
     app_bar_factory: Callable = get_app_bar,
     **kwargs,
 ):
-    new_kwargs = page.app.view_params or {}
+    new_kwargs = dict(
+        vertical_alignment=ft.MainAxisAlignment.CENTER,
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER
+    )
+    if page.app.view_params:
+        new_kwargs.update(page.app.view_params)
 
     if 'nav_bar_params' in new_kwargs:
         current_nav_bar_params = nav_bar_params or {}
