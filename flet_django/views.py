@@ -7,7 +7,7 @@ from flet_core import Control
 from flet_django.types import PAGE_CLASS
 
 
-class FtView(ft.View):
+class GenericView(ft.View):
     def __init__(self, controls: Optional[list[Control]] = None, text: Optional[str] = None,
                  vertical_alignment: ft.MainAxisAlignment = ft.MainAxisAlignment.CENTER,
                  horizontal_alignment: ft.CrossAxisAlignment = ft.CrossAxisAlignment.CENTER,
@@ -35,7 +35,7 @@ def get_app_bar(page, title: str = '', action_params: Optional[dict] = None, **k
 def ft_view(
     page: PAGE_CLASS,
     controls: list[Control],
-    view_class: Type[FtView] = FtView,
+    view_class: Type[GenericView] = GenericView,
     nav_bar_params: Optional[dict] = None,
     app_bar_params: Optional[dict] = None,
     app_bar_factory: Callable = get_app_bar,

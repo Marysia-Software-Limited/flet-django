@@ -3,13 +3,23 @@
 
 ## Rapid developing db based app. Zero boilerplate code.
 
-I hate boilerplate code. I hated it all my life. I made so many steps to remove this mental parasites far from me. And now, with Flet and Django I'm so close to get my ideal. For this moment I made as PoC a clone of a standard Flet ToDo application. All what i change is write all directly inside of Django. Flet code is run directly on the backend, so we not need any dedicated communication layer. Next what I done is generic data table control. This is a simple control able to create a data table for any Django model. All with searching and sorting. My roadmap is now:
-create generic form for any model
-manage relations between models
-create datetime, date and time pickers
-solve problem with horizontal and vertical scrolling data table
-add filtering management for each of columns
-pack all as Django package, ready to add to any existing project
+I hate boilerplate code. I hated it all my life. I made so many steps to remove this mental parasites far from me. And now, with Flet and Django I'm so close to get my ideal. For this moment I made as PoC a clone of a standard Flet ToDo application. All what i change is write all directly inside of Django. Flet code is run directly on the backend, so we not need any dedicated communication layer. Next what I done is generic data table control. This is a simple control able to create a data table for any Django model. All with searching and sorting.
+
+## Roadmap:
+* [x] create package for a framework
+* create environment for generic Flutter app
+  * [x] GenericApp class for a new Flutter application
+  * [x] GenericPage class for a new Flutter application instance
+  * [x] GenericView class to easily create routed Flutter views
+  * [x] Generic middleware class for flexible management of Flutter view routing process
+  * [x] UrlsMiddleware class for implementing Django urls based routing
+  * [x] Generic navigation mechanism
+* [ ] create authorisation and permissions middleware
+* create generic list view for any Django model
+  * [ ] generic model's, data table based, control
+  * [ ]
+* [ ] create generic form for any Django model
+* [ ] manage relations between models
 
 ## Instalation
 - Install python package:
@@ -17,28 +27,102 @@ pack all as Django package, ready to add to any existing project
         $ pip install flet-django
 - Add 'flet_django' to INSTALLED_APPS in settings.py:
         `INSTALLED_APPS += ['flet_django']`
-- Add flet code in file main_app.py
+
 
 ## Run and usage
-- To run app use todo django command:
+
+- Create main function in file main_app.py
+```python
+import flet as ft
+from flet_django.pages import GenericApp
+
+...
+
+main = GenericApp(
+    controls=[ft.Text("Hello World!")],
+    view_params=view_params
+)
+```
+- GenericApp instance is a GenericPage instances factory, can be use directly as main function for flet application.
+- To run function __main__ from file __main_app.py__ use django command:
 
         $ python manage.py run_app
-- To run server use --view parameter:
 
-        $ python manage.py run_app --view flet_app_hidden
-- Server will be avaible as http://$APP_HOST:$APP_PORT, default value is 8085, for example:
+## Flutter view
 
-        $ open http://ala.hipisi.org.pl:8085
+- A framework based on flutter views. Flutter view is a function which takes page as a first argument, and returns instance of flet.View class.
+- For simplicity we can use ft_view factory
+- Let create a simple flutter view example in file main_app.py:
+```python
+import flet as ft
+from flet_django.views import ft_view
+
+def home(page):
+    return ft_view(
+        page,
+        controls=[ft.Text("Hello World!")],
+        app_bar_params=dict(title="ToDo app")
+    )
+```
+- Flutter view can be assigned to route by Generic App's urls parameter, or as a target for navigation:
+```python
+import flet as ft
+from django.urls import path
+from flet_django.views import ft_view
+from flet_django.pages import GenericApp
+from flet_django.navigation import Fatum
+
+def home(page):
+    return ft_view(
+        page,
+        controls=[ft.Text("Hello World!")],
+        app_bar_params=dict(title="ToDo app")
+    )
+
+destinations = [
+    Fatum("/",
+          icon=ft.icons.HOME,
+          selected_icon=ft.icons.HOME_OUTLINED,
+          label="home",
+          nav_bar=True,
+          action=True,
+          nav_rail=False
+    ),
+]
+
+urlpatterns = [
+    path('', home, name="home")
+]
+
+main = GenericApp(
+    destinations=destinations,
+    urls=urlpatterns,
+    init_route="/"
+)
+
+```
+
+- To run application on other devices you need establish server and build client, based on Flutter frontend project from repository
+  - To run app as server use --view parameter:
+  ```bash
+  python manage.py run_app --view flet_app_hidden
+  ```
+- Server will be avaible as http://$APP_HOST:$APP_PORT, for example:
+```bash
+  open http://ala.hipisi.org.pl:8085
+```
 - Compile ./frontend futter app to have separate ready to install application:
-
-        $ cd frontend
-        $ flutter run --dart-entrypoint-args http://94.23.247.130:8085
+```bash
+  cd frontend
+  flutter run --dart-entrypoint-args http://94.23.247.130:8085
+```
 - You can use simple script to run separate flutter application:
-
-        $ python run.py
+```bash
+  python run.py
+```
 
 ## Demo
-
+You can run repository's project as example of usage.
 Working demo [is here](http://ala.hipisi.org.pl:8085).
 
 ## Screenshots

@@ -3,7 +3,7 @@ from django.urls import include, path
 
 from flet_django.pages import GenericPage, GenericApp
 from flet_django.views import ft_view
-from flet_django.navigation import Destiny
+from flet_django.navigation import Fatum
 
 import tasks.ft_urls
 from tasks.todo_app import TodoApp
@@ -23,8 +23,8 @@ urlpatterns = [
 ]
 
 destinations = [
-    Destiny("/", icon=ft.icons.HOME, selected_icon=ft.icons.HOME_OUTLINED, label="home"),
-    Destiny("/tasks", icon=ft.icons.LIST, selected_icon=ft.icons.LIST_OUTLINED, label="tasks", action=False),
+    Fatum("/", icon=ft.icons.HOME, selected_icon=ft.icons.HOME_OUTLINED, label="home"),
+    Fatum("/tasks", icon=ft.icons.LIST, selected_icon=ft.icons.LIST_OUTLINED, label="tasks", action=False),
 ]
 
 app_bar_params = dict(bgcolor=ft.colors.SURFACE_VARIANT)

@@ -8,17 +8,17 @@ import flet as ft
 from flet_core import Control
 
 from django.conf import settings
-from .middlewares import FtMiddleware, urls_middleware, simple_view_middleware
-from .navigation import Destiny, Navigare
+from .middlewares import GenericMiddleware, urls_middleware, simple_view_middleware
+from .navigation import Fatum, Navigare
 from .types import PAGE_CLASS
 
 
 @dataclass
 class GenericApp:
-    middlewares: list[Type[FtMiddleware]] = field(default_factory=list)
+    middlewares: list[Type[GenericMiddleware]] = field(default_factory=list)
     urls: Optional[Iterable] = None
     controls: Optional[list[Control]] = None
-    destinations: Optional[List[Destiny]] = None
+    destinations: Optional[List[Fatum]] = None
     page_class: Optional[Type[PAGE_CLASS]] = None
     view_params: Optional[dict] = None
     init_route: str = '/'
@@ -64,7 +64,6 @@ class GenericPage:
         self.ft_page.views.pop()  # remove empty view from top
 
         self.route = self.app.init_route
-
 
     def _route_change(self, e: ft.RouteChangeEvent) -> None:
         if self.on_route_change is None:

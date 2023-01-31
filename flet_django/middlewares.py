@@ -1,5 +1,6 @@
 from abc import ABC
 from dataclasses import dataclass
+from typing import Callable
 
 from django.urls import resolve, Resolver404
 
@@ -8,11 +9,11 @@ from flet_core import Control
 
 from .routes import FtViewRoute
 from .types import PAGE_CLASS
-from .views import FtView
+from .views import ft_view
 
 
 @dataclass
-class FtMiddleware(ABC):
+class GenericMiddleware(ABC):
     page: PAGE_CLASS
     route: str
 
@@ -26,29 +27,24 @@ class FtMiddleware(ABC):
 def simple_view_middleware(
     controls: list[Control] = None,
     text: str = None,
-    vertical_alignment=ft.MainAxisAlignment.CENTER,
-    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+    **kwargs
 ):
     if controls is None:
         controls = [ft.Text(text)]
 
-    class SimpeViewMiddleware(FtMiddleware):
+    class SimpeViewMiddleware(GenericMiddleware):
 
         def parse_route(self):
-            def view(_):
-                return FtView(
-                    controls=controls,
-                    vertical_alignment=vertical_alignment,
-                    horizontal_alignment=horizontal_alignment
-                )
-
-            return view
+            return ft_view(
+                controls=controls,
+                **kwargs
+            )
 
     return SimpeViewMiddleware
 
 
 def urls_middleware(urls: tuple):
-    class UrlsMiddleware(FtMiddleware):
+    class UrlsMiddleware(GenericMiddleware):
         def parse_route(self):
             try:
                 result = resolve(self.route, urls)

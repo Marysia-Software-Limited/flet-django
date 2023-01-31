@@ -71,7 +71,7 @@ class Navigare(ABC):
 
 
 @dataclass
-class Destiny(ABC):
+class Fatum(ABC):
     route: str
     icon: Optional[str] = None
     icon_content: Optional[Control] = None
