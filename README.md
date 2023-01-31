@@ -6,20 +6,22 @@
 I hate boilerplate code. I hated it all my life. I made so many steps to remove this mental parasites far from me. And now, with Flet and Django I'm so close to get my ideal. For this moment I made as PoC a clone of a standard Flet ToDo application. All what i change is write all directly inside of Django. Flet code is run directly on the backend, so we not need any dedicated communication layer. Next what I done is generic data table control. This is a simple control able to create a data table for any Django model. All with searching and sorting.
 
 ## Roadmap:
-* [x] create package for a framework
-* create environment for generic Flutter app
+* [x] Create package for a framework
+* [x] Create environment for generic Flutter app
   * [x] GenericApp class for a new Flutter application
   * [x] GenericPage class for a new Flutter application instance
   * [x] GenericView class to easily create routed Flutter views
   * [x] Generic middleware class for flexible management of Flutter view routing process
   * [x] UrlsMiddleware class for implementing Django urls based routing
   * [x] Generic navigation mechanism
-* [ ] create authorisation and permissions middleware
-* create generic list view for any Django model
-  * [ ] generic model's, data table based, control
-  * [ ]
-* [ ] create generic form for any Django model
-* [ ] manage relations between models
+* [ ] Create authorisation and permissions middleware
+  * [ ] AuthApp for apps with authorization
+  * [ ] AuthMiddleware for authorisation management
+* [ ] Create generic list view for any Django model
+  * [x] Generic model's, data table based, control
+  * [ ] Generic form based on Django forms
+* [ ] Create generic form for any Django model
+* [ ] Manage relations between models
 
 ## Instalation
 - Install python package:
