@@ -34,19 +34,33 @@ I hate boilerplate code. I hated it all my life. I made so many steps to remove 
 
 ## Run and usage
 
-- Create main function in file main_app.py
+* Let create a Django project:
+    ```bash
+    pip install Django
+    django-admin startproject test_flet_django
+    cd test_flet_django
+    python manage.py migrate
+    ```
+* Install flet and flet-django packages:
+    ```bash
+    pip install flet
+    pip install flet-django
+    ```
+* Add 'flet_django' to INSTALLED_APPS in settings.py:
+    ```bash
+    echo "INSTALLED_APPS += ['flet_django']" >> test_flet_django/settings.py
+    ```
+* Create the main function in the file main_app.py at the root of your Django project:
     ```python
     import flet as ft
     from flet_django.pages import GenericApp
-
-    ...
-
     main = GenericApp(controls=[ft.Text("Hello World!")])
     ```
-- GenericApp instance is a GenericPage instances factory, can be use directly as main function for flet application.
-- To run function __main__ from file __main_app.py__ use django command:
-
-        $ python manage.py run_app
+* Run function __main__ from file __main_app.py__ using the Django command:
+    ```bash
+    python manage.py run_app
+    ```
+* Enjoy your desktop/mobile/web flutter app.
 
 ## Flutter view
 
