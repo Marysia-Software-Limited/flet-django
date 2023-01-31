@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flet-django"
-version = "0.2.1"
+version = "0.2.2"
 description = "Django Flutter Framework."
 license = "MIT"
 authors = ["beret <beret@hipisi.org.pl>"]  # Here is a place for You'r name, contributors welcome!
@@ -16,20 +16,16 @@ classifiers = [
     "Environment :: WebAssembly",
     "Environment :: Win32 (MS Windows)",
     "Environment :: X11 Applications",
-    "Environment :: Mobile",
-    "Environment :: Mobile :: iOS",
-    "Environment :: Mobile :: Android",
     "Framework :: Django",
     "Framework :: Django :: 4.0",
     "Framework :: Django :: 4.1",
-    "Framework :: Flutter",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Programming Language :: Dart",
+    "Programming Language :: Other",
     "Topic :: Desktop Environment"
 ]
 packages = [{ include = "flet_django" }]

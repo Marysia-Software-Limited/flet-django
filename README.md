@@ -22,6 +22,7 @@ I hate boilerplate code. I hated it all my life. I made so many steps to remove 
   * [ ] Generic form based on Django forms
 * [ ] Create generic form for any Django model
 * [ ] Manage relations between models
+* [ ] Documentation!!!
 
 ## Instalation
 - Install python package:
@@ -34,17 +35,14 @@ I hate boilerplate code. I hated it all my life. I made so many steps to remove 
 ## Run and usage
 
 - Create main function in file main_app.py
-```python
-import flet as ft
-from flet_django.pages import GenericApp
+    ```python
+    import flet as ft
+    from flet_django.pages import GenericApp
 
-...
+    ...
 
-main = GenericApp(
-    controls=[ft.Text("Hello World!")],
-    view_params=view_params
-)
-```
+    main = GenericApp(controls=[ft.Text("Hello World!")])
+    ```
 - GenericApp instance is a GenericPage instances factory, can be use directly as main function for flet application.
 - To run function __main__ from file __main_app.py__ use django command:
 
@@ -55,73 +53,73 @@ main = GenericApp(
 - A framework based on flutter views. Flutter view is a function which takes page as a first argument, and returns instance of flet.View class.
 - For simplicity we can use ft_view factory
 - Let create a simple flutter view example in file main_app.py:
-```python
-import flet as ft
-from flet_django.views import ft_view
+    ```python
+    import flet as ft
+    from flet_django.views import ft_view
 
-def home(page):
-    return ft_view(
-        page,
-        controls=[ft.Text("Hello World!")],
-        app_bar_params=dict(title="ToDo app")
-    )
-```
+    def home(page):
+        return ft_view(
+            page,
+            controls=[ft.Text("Hello World!")],
+            app_bar_params=dict(title="ToDo app")
+        )
+    ```
 - Flutter view can be assigned to route by Generic App's urls parameter, or as a target for navigation:
-```python
-import flet as ft
-from django.urls import path
-from flet_django.views import ft_view
-from flet_django.pages import GenericApp
-from flet_django.navigation import Fatum
+    ```python
+    import flet as ft
+    from django.urls import path
+    from flet_django.views import ft_view
+    from flet_django.pages import GenericApp
+    from flet_django.navigation import Fatum
 
-def home(page):
-    return ft_view(
-        page,
-        controls=[ft.Text("Hello World!")],
-        app_bar_params=dict(title="ToDo app")
+    def home(page):
+        return ft_view(
+            page,
+            controls=[ft.Text("Hello World!")],
+            app_bar_params=dict(title="ToDo app")
+        )
+
+    destinations = [
+        Fatum(
+            route="/",
+            icon=ft.icons.HOME,
+            selected_icon=ft.icons.HOME_OUTLINED,
+            label="home",
+            nav_bar=True,
+            action=True,
+            nav_rail=False
+        ),
+    ]
+
+    urlpatterns = [
+        path('', home, name="home")
+    ]
+
+    main = GenericApp(
+        destinations=destinations,
+        urls=urlpatterns,
+        init_route="/"
     )
 
-destinations = [
-    Fatum("/",
-          icon=ft.icons.HOME,
-          selected_icon=ft.icons.HOME_OUTLINED,
-          label="home",
-          nav_bar=True,
-          action=True,
-          nav_rail=False
-    ),
-]
-
-urlpatterns = [
-    path('', home, name="home")
-]
-
-main = GenericApp(
-    destinations=destinations,
-    urls=urlpatterns,
-    init_route="/"
-)
-
-```
-
+    ```
 - To run application on other devices you need establish server and build client, based on Flutter frontend project from repository
-  - To run app as server use --view parameter:
-  ```bash
-  python manage.py run_app --view flet_app_hidden
-  ```
-- Server will be avaible as http://$APP_HOST:$APP_PORT, for example:
-```bash
-  open http://ala.hipisi.org.pl:8085
-```
+- To run app as server use --view parameter:
+    ```bash
+    python manage.py run_app --view flet_app_hidden
+    ```
+- Server will be avaible as http server, for example:
+    ```bash
+      open http://ala.hipisi.org.pl:8085
+    ```
 - Compile ./frontend futter app to have separate ready to install application:
-```bash
-  cd frontend
-  flutter run --dart-entrypoint-args http://94.23.247.130:8085
-```
+    ```bash
+      cd frontend
+      flutter run --dart-entrypoint-args http://94.23.247.130:8085
+    ```
 - You can use simple script to run separate flutter application:
-```bash
-  python run.py
-```
+    ```bash
+      python run.py
+    ```
 
 ## Demo
 You can run repository's project as example of usage.
