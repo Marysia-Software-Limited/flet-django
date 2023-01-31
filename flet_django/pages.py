@@ -29,7 +29,7 @@ class GenericApp:
     def __post_init__(self):
 
         engine = import_module(settings.SESSION_ENGINE)
-        # pylint: disable=S116
+        # pylint: disable=E0116
         # value is a class
         self.SessionStore = engine.SessionStore
 
