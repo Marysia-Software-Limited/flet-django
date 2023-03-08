@@ -1,4 +1,5 @@
 from typing import Optional, Type, Callable
+from typing import Union
 
 import flet as ft
 from flet_core import Control
@@ -34,7 +35,12 @@ def get_app_bar(page, title: str = '', action_params: Optional[dict] = None, **k
 def ft_view(
     page: PAGE_CLASS,
     controls: list[Control],
-    view_class: Type[GenericView] = ft.View,
+    view_class: Optional[
+        Union[
+            Callable[[list[Control], ...], ft.View],
+            Type[ft.View]
+        ]
+    ] = None,
     nav_bar_params: Optional[dict] = None,
     app_bar_params: Optional[dict] = None,
     app_bar_factory: Callable = get_app_bar,
@@ -44,6 +50,13 @@ def ft_view(
         vertical_alignment=ft.MainAxisAlignment.CENTER,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER
     )
+
+    if view_class is None:
+        if page.app.view_factory:
+            view_class = page.app.view_factory
+        else:
+            view_class = ft.View
+
     if page.app.view_params:
         new_kwargs.update(page.app.view_params)
 
@@ -57,8 +70,8 @@ def ft_view(
         app_bar_params = new_kwargs.pop('app_bar_params')
         app_bar_params.update(current_app_bar_params)
 
-    if 'view_class' in new_kwargs:
-        default_view_class = new_kwargs.pop('view_class')
+    if 'view_factory' in new_kwargs:
+        default_view_class = new_kwargs.pop('view_factory')
         view_class = view_class or default_view_class
 
     if 'app_bar_factory' in new_kwargs:

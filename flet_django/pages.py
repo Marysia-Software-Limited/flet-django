@@ -3,11 +3,13 @@ from abc import abstractmethod
 from collections import defaultdict
 from importlib import import_module
 from typing import Type, Iterable, TypeVar, Callable, Dict, Optional, List
+from typing import Union
 
 import flet as ft
 from flet_core import Control
 
 from django.conf import settings
+
 from .middlewares import GenericMiddleware, urls_middleware, simple_view_middleware
 from .navigation import Fatum, Navigare
 from .types import PAGE_CLASS
@@ -24,16 +26,26 @@ class GenericApp:
     page_class: Optional[Type[PAGE_CLASS]] = None
     view_params: Optional[dict] = None
     init_route: str = '/'
+    view_factory: Optional[
+        Union[
+            Callable[[list[Control], ...], ft.View],
+            Type[ft.View]
+        ]
+    ] = None
 
     def __call__(self, page):
+        page.scroll = ft.ScrollMode.ALWAYS
         return self.page_class(app=self, ft_page=page)
 
     def __post_init__(self):
 
-        engine = import_module(settings.SESSION_ENGINE)
-        # pylint: disable=E0116
-        # value is a class
-        self.SessionStore = engine.SessionStore
+        try:
+            engine = import_module(settings.SESSION_ENGINE)
+            # pylint: disable=E0116
+            # value is a class
+            self.SessionStore = engine.SessionStore
+        except Exception as e:
+            self.SessionStore = lambda: {}
 
         if self.page_class is None:
             self.page_class = GenericPage
