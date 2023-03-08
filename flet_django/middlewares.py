@@ -1,6 +1,7 @@
 from abc import ABC
 from dataclasses import dataclass
 from typing import Callable
+from typing import Optional
 
 from django.urls import resolve, Resolver404
 
@@ -25,23 +26,27 @@ class GenericMiddleware(ABC):
 
 
 def simple_view_middleware(
-    controls: list[Control] = None,
-    text: str = None,
+    controls: Optional[list[Control]] = None,
+    text: Optional[str] = None,
+    view: Optional[Callable[[PAGE_CLASS], ft.View]] = None,
     **kwargs
 ):
     if controls is None:
         controls = [ft.Text(text)]
-
-    class SimpeViewMiddleware(GenericMiddleware):
-
-        def parse_route(self):
-            def __get_view(page):
-                return ft_view(
+    if view is None:
+        def __view(page: PAGE_CLASS):
+            return ft_view(
                     page=page,
                     controls=controls,
                     **kwargs
                 )
-            return __get_view
+
+        view = __view
+
+    class SimpeViewMiddleware(GenericMiddleware):
+
+        def parse_route(self):
+            return view
 
     return SimpeViewMiddleware
 

@@ -18,6 +18,8 @@ class GenericApp:
     middlewares: list[Type[GenericMiddleware]] = field(default_factory=list)
     urls: Optional[Iterable] = None
     controls: Optional[list[Control]] = None
+    view: Optional[Callable[[PAGE_CLASS], ft.View]] = None
+    text: Optional[str] = None
     destinations: Optional[List[Fatum]] = None
     page_class: Optional[Type[PAGE_CLASS]] = None
     view_params: Optional[dict] = None
@@ -39,8 +41,9 @@ class GenericApp:
         if self.urls is not None:
             self.middlewares.append(urls_middleware(urls=tuple(self.urls)))
 
-        if self.controls is not None:
-            self.middlewares.append(simple_view_middleware(controls=self.controls))
+        simple_views_params = [self.controls, self.view, self.text]
+        if any(simple_views_params):
+            self.middlewares.append(simple_view_middleware(controls=self.controls, view=self.view, text=self.text))
 
 
 @dataclass
