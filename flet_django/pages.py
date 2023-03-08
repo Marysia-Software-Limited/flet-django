@@ -83,6 +83,8 @@ class GenericPage:
 
     def parse_route(self, route: str) -> Callable:
         __middlewares = []
+        if route[0] != '/':  # absolute paths only
+            route = f"/{route}"
         view = None
         for middleware_class in self.app.middlewares:
             middleware = middleware_class(page=self, route=route)
@@ -103,12 +105,22 @@ class GenericPage:
         self.append_view(view)
         self.update()
 
+    @property
+    def dialog(self) -> Optional[ft.AlertDialog]:
+        return self.ft_page.dialog if self.ft_page else None
+
+    @dialog.setter
+    def dialog(self, new_dialog: ft.AlertDialog):
+        self.ft_page.dialog = new_dialog
+        new_dialog.open = True
+        self.update()
+
     def append_view(self, view: Callable):
         view_control = view(self)
         self.ft_page.views.append(view_control)
 
-    def update(self):
-        self.ft_page.update()
+    def update(self, *controls):
+        self.ft_page.update(*controls)
 
     def go(self, route: str):
         self.route = route

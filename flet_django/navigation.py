@@ -3,7 +3,6 @@ from dataclasses import dataclass, field
 from typing import Optional, List, Callable
 
 import flet as ft
-from flet.types import PaddingValue
 from flet_core import Control
 
 from flet_django.types import PAGE_CLASS, DESTINATION_CLASS
@@ -79,7 +78,7 @@ class Fatum(ABC):
     selected_icon_content: Optional[Control] = None
     label: Optional[str] = None
     label_content: Optional[Control] = None,
-    padding: PaddingValue = None,
+    padding: ft.PaddingValue = None,
     nav_bar: bool = True
     nav_rail: bool = True
     action: bool = True
