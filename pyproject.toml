@@ -60,8 +60,8 @@ werkzeug = "*"
 
 
 # for local development only
-flet-core = {path = "../flet/sdk/python/packages/flet-core", develop = true}
-flet = {path = "../flet/sdk/python/packages/flet", develop = true}
+#flet-core = {path = "../flet/sdk/python/packages/flet-core", develop = true}
+#flet = {path = "../flet/sdk/python/packages/flet", develop = true}
 #flet-routed-app = {path = "../flet-routed-app", develop = true}
 #django = {path = "../django", develop = true}
 
