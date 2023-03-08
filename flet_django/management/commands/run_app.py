@@ -36,5 +36,11 @@ class Command(BaseCommand):
         view = options["view"]
 
         self.stdout.write(self.style.MIGRATE_HEADING('Let run flutter app.'))
-        ft.app(target=main, port=options["port"], view=view, host=options["host"])
+        ft.app(
+            target=main,
+            port=options["port"], 
+            view=view,
+            host=options["host"],
+            assets_dir="assets"
+        )
         self.stdout.write(self.style.SUCCESS('Finish running flutter app.'))
