@@ -17,6 +17,17 @@ class GenericViewFactory:
     def get_view(self, controls, **kwargs):
         return ft.View(controls=controls, **kwargs)
 
+    def nav_bar(self, controls, **nav_bar_params):
+        if self.page.navigation:
+            controls.append(self.page.navigation.get_bar(**nav_bar_params))
+        return controls
+
+    def app_bar(self, controls, **app_bar_params):
+        if app_bar_params:
+            app_bar = self.app_bar_factory(**app_bar_params)
+            controls = [app_bar, ] + controls
+        return controls
+
     def app_bar_factory(self, title: str = '', action_params: Optional[dict] = None, **kwargs) -> ft.AppBar:
         action_params = action_params or {}
 
@@ -42,23 +53,20 @@ class GenericViewFactory:
         new_kwargs.update(self.kwargs)
         new_kwargs.update(kwargs)
 
+        nav_bar_params = nav_bar_params or {}
+        app_bar_params = app_bar_params or {}
         if 'nav_bar_params' in new_kwargs:
-            current_nav_bar_params = nav_bar_params or {}
+            current_nav_bar_params = nav_bar_params
             nav_bar_params = new_kwargs.pop('nav_bar_params')
             nav_bar_params.update(current_nav_bar_params)
 
         if 'app_bar_params' in self.kwargs:
-            current_app_bar_params = app_bar_params or {}
+            current_app_bar_params = app_bar_params
             app_bar_params = new_kwargs.pop('app_bar_params')
             app_bar_params.update(current_app_bar_params)
 
-        if self.page.navigation:
-            nav_bar_params = nav_bar_params or {}
-            controls.append(self.page.navigation.get_bar(**nav_bar_params))
-
-        if app_bar_params:
-            app_bar = self.app_bar_factory(**app_bar_params)
-            controls = [app_bar, ] + controls
+        controls = self.nav_bar(controls, **nav_bar_params)
+        controls = self.app_bar(controls, **app_bar_params)
 
         return self.get_view(controls=controls, **new_kwargs)
 
