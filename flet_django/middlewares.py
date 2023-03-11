@@ -10,7 +10,6 @@ from flet_core import Control
 
 from .routes import FtViewRoute
 from .types import PAGE_CLASS
-from .views import ft_view
 
 
 @dataclass
@@ -35,11 +34,10 @@ def simple_view_middleware(
         controls = [ft.Text(text)]
     if view is None:
         def __view(page: PAGE_CLASS):
-            return ft_view(
-                    page=page,
-                    controls=controls,
-                    **kwargs
-                )
+            return page.get_view(
+                controls=controls,
+                **kwargs
+            )
 
         view = __view
 

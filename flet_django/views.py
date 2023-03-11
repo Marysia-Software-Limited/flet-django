@@ -53,10 +53,11 @@ class GenericViewFactory:
             app_bar_params.update(current_app_bar_params)
 
         if self.page.navigation:
+            nav_bar_params = nav_bar_params or {}
             controls.append(self.page.navigation.get_bar(**nav_bar_params))
 
         if app_bar_params:
-            app_bar = self.app_bar_factory(self.page, **app_bar_params)
+            app_bar = self.app_bar_factory(**app_bar_params)
             controls = [app_bar, ] + controls
 
         return self.get_view(controls=controls, **new_kwargs)

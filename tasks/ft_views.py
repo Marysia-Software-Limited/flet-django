@@ -15,8 +15,7 @@ def tasks(page: GenericPage, date_from=None, period: relativedelta = None, title
         filters["date_add__gte"] = date_from
         if period is not None:
             filters["date_add__lt"] = date_from + period
-    return ft_view(
-        page=page,
+    return page.get_view(
         controls=[ModelTableControl(
                 model=Task,
                 filters=filters

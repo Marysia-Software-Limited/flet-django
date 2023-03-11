@@ -2,7 +2,6 @@ import flet as ft
 from django.urls import include, path
 
 from flet_django.pages import GenericPage, GenericApp
-from flet_django.views import ft_view
 from flet_django.navigation import Fatum
 
 import tasks.ft_urls
@@ -10,8 +9,7 @@ from tasks.todo_app import TodoApp
 
 
 def home(page: GenericPage):
-    return ft_view(
-        page,
+    return page.get_view(
         controls=[TodoApp()],
         app_bar_params=dict(title="ToDo app")
     )
