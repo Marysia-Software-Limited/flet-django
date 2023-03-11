@@ -32,7 +32,6 @@ def main(page: ft.Page):
 
     page.add(
         ft.DataTable(
-            # width=700,
             bgcolor="yellow",
             border=ft.border.all(2, "red"),
             border_radius=10,

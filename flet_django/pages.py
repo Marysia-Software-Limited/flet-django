@@ -46,7 +46,7 @@ class GenericApp:
             # pylint: disable=E0116
             # value is a class
             self.SessionStore = engine.SessionStore
-        except Exception as e:
+        except Exception as _:
             self.SessionStore = lambda: {}
 
         if self.page_class is None:
