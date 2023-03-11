@@ -12,6 +12,7 @@ from django.conf import settings
 
 from .middlewares import GenericMiddleware, urls_middleware, simple_view_middleware
 from .navigation import Fatum, Navigare
+from .views import ViewFactory
 from .types import PAGE_CLASS
 
 
@@ -24,14 +25,15 @@ class GenericApp:
     text: Optional[str] = None
     destinations: Optional[List[Fatum]] = None
     page_class: Optional[Type[PAGE_CLASS]] = None
-    view_params: Optional[dict] = None
+    view_params: dict = field(default_factory=dict)
     init_route: str = '/'
-    view_factory: Optional[
-        Union[
-            Callable[[list[Control], ...], ft.View],
-            Type[ft.View]
-        ]
-    ] = None
+    view_factory: Callable[
+            [PAGE_CLASS],
+            Callable[
+                [list[Control], ...],
+                ft.View
+            ],
+        ] = ViewFactory
 
     def __call__(self, page):
         page.scroll = ft.ScrollMode.ALWAYS
@@ -91,6 +93,10 @@ class GenericPage:
             self.pop()
         else:
             self.on_view_pop(e)
+
+    @property
+    def get_view(self):
+        return self.app.view_factory(self, self.app.view_params)
 
     @property
     def route(self):
