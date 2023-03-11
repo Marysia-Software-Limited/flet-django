@@ -12,7 +12,7 @@ from django.conf import settings
 
 from .middlewares import GenericMiddleware, urls_middleware, simple_view_middleware
 from .navigation import Fatum, Navigare
-from .views import ViewFactory
+from .views import GenericViewFactory
 from .types import PAGE_CLASS
 
 
@@ -33,7 +33,7 @@ class GenericApp:
                 [list[Control], ...],
                 ft.View
             ],
-        ] = ViewFactory
+        ] = GenericViewFactory
 
     def __call__(self, page):
         page.scroll = ft.ScrollMode.ALWAYS

@@ -17,18 +17,6 @@ class GenericViewFactory:
     def get_view(self, controls, **kwargs):
         return ft.View(controls=controls, **kwargs)
 
-    def __call__(self, controls, **kwargs):
-        new_kwargs = self.kwargs.copy()
-        new_kwargs.update(kwargs)
-        return self.get_view(controls=controls, **new_kwargs)
-
-
-
-
-
-@dataclass
-class ViewFactory(GenericViewFactory):
-
     def app_bar_factory(self, title: str = '', action_params: Optional[dict] = None, **kwargs) -> ft.AppBar:
         action_params = action_params or {}
 
