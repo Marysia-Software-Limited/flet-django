@@ -9,6 +9,18 @@ from flet_core import Control
 from flet_django.types import PAGE_CLASS
 
 
+def get_app_bar(page, title: str = '', action_params: Optional[dict] = None, **kwargs) -> ft.AppBar:
+    action_params = action_params or {}
+
+    new_kwargs = dict(
+        title=ft.Text(value=title),
+        actions=page.navigation.get_actions(**action_params)
+    )
+    new_kwargs.update(kwargs)
+
+    return ft.AppBar(**new_kwargs)
+
+
 @dataclass
 class GenericViewFactory:
     page: PAGE_CLASS
@@ -26,22 +38,14 @@ class GenericViewFactory:
     def nav_bar_factory(self, **nav_bar_params) -> ft.NavigationBar:
         return self.page.navigation.get_bar(**nav_bar_params)
 
-    def app_bar(self, controls, **app_bar_params):
+    def set_app_bar(self, controls, **app_bar_params):
         if app_bar_params:
             app_bar = self.app_bar_factory(**app_bar_params)
             controls = [app_bar, ] + controls
         return controls
 
-    def app_bar_factory(self, title: str = '', action_params: Optional[dict] = None, **kwargs) -> ft.AppBar:
-        action_params = action_params or {}
-
-        new_kwargs = dict(
-            title=ft.Text(value=title),
-            actions=self.page.navigation.get_actions(**action_params)
-        )
-        new_kwargs.update(kwargs)
-
-        return ft.AppBar(**new_kwargs)
+    def app_bar_factory(self, **app_bar_params) -> ft.AppBar:
+        return get_app_bar(self.page, **app_bar_params)
 
     def __call__(self,
                  controls: list[Control],
@@ -70,7 +74,7 @@ class GenericViewFactory:
             app_bar_params.update(current_app_bar_params)
 
         controls = self.set_nav_bar(controls, **nav_bar_params)
-        controls = self.app_bar(controls, **app_bar_params)
+        controls = self.set_app_bar(controls, **app_bar_params)
 
         return self.get_view(controls=controls, **new_kwargs)
 
@@ -78,16 +82,6 @@ class GenericViewFactory:
 #################################################
 #                   OLD CODE                    #
 #################################################
-def get_app_bar(page, title: str = '', action_params: Optional[dict] = None, **kwargs) -> ft.AppBar:
-    action_params = action_params or {}
-
-    new_kwargs = dict(
-        title=ft.Text(value=title),
-        actions=page.navigation.get_actions(**action_params)
-    )
-    new_kwargs.update(kwargs)
-
-    return ft.AppBar(**new_kwargs)
 
 
 def ft_view(
