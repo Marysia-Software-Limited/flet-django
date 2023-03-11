@@ -17,10 +17,14 @@ class GenericViewFactory:
     def get_view(self, controls, **kwargs):
         return ft.View(controls=controls, **kwargs)
 
-    def nav_bar(self, controls, **nav_bar_params):
+    def set_nav_bar(self, controls, **nav_bar_params):
         if self.page.navigation:
-            controls.append(self.page.navigation.get_bar(**nav_bar_params))
+            nav_bar = self.nav_bar_factory(**nav_bar_params)
+            controls.append(nav_bar)
         return controls
+
+    def nav_bar_factory(self, **nav_bar_params) -> ft.NavigationBar:
+        return self.page.navigation.get_bar(**nav_bar_params)
 
     def app_bar(self, controls, **app_bar_params):
         if app_bar_params:
@@ -65,7 +69,7 @@ class GenericViewFactory:
             app_bar_params = new_kwargs.pop('app_bar_params')
             app_bar_params.update(current_app_bar_params)
 
-        controls = self.nav_bar(controls, **nav_bar_params)
+        controls = self.set_nav_bar(controls, **nav_bar_params)
         controls = self.app_bar(controls, **app_bar_params)
 
         return self.get_view(controls=controls, **new_kwargs)
