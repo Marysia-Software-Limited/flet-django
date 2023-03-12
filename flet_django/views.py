@@ -73,10 +73,11 @@ class GenericViewFactory:
             app_bar_params = new_kwargs.pop('app_bar_params')
             app_bar_params.update(current_app_bar_params)
 
-        controls = self.set_nav_bar(controls, **nav_bar_params)
-        controls = self.set_app_bar(controls, **app_bar_params)
+        view = self.get_view(controls=controls, **new_kwargs)
+        view.controls = self.set_nav_bar(view.controls, **nav_bar_params)
+        view.controls = self.set_app_bar(view.controls, **app_bar_params)
 
-        return self.get_view(controls=controls, **new_kwargs)
+        return view
 
 
 #################################################
