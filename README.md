@@ -65,14 +65,14 @@ I hate boilerplate code. I hated it all my life. I made so many steps to remove 
 ## Flutter view
 
 - A framework based on flutter views. Flutter view is a function which takes page as a first argument, and returns instance of flet.View class.
-- For simplicity, we can use ft_view factory
+- For simplicity, we can use view factory method of page: `page.get_view`
 - Let create a simple flutter view example in file main_app.py:
     ```python
     import flet as ft
     from flet_django.views import ft_view
 
     def home(page):
-        return ft_view(
+        return page.get_view(
             page,
             controls=[ft.Text("Hello World!")],
             app_bar_params=dict(title="ToDo app")
@@ -82,12 +82,11 @@ I hate boilerplate code. I hated it all my life. I made so many steps to remove 
     ```python
     import flet as ft
     from django.urls import path
-    from flet_django.views import ft_view
     from flet_django.pages import GenericApp
     from flet_django.navigation import Fatum
 
     def home(page):
-        return ft_view(
+        return page.get_view(
             page,
             controls=[ft.Text("Hello World!")],
             app_bar_params=dict(title="ToDo app")
