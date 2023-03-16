@@ -62,9 +62,9 @@ I hate boilerplate code. I hated it all my life. I made so many steps to remove 
     ```
 * Enjoy your desktop/mobile/web flutter app.
 
-## Flutter view
+## View Factory Class
 
-- A framework based on flutter views. Flutter view is a function which takes page as a first argument, and returns instance of flet.View class.
+- A framework based on view factories. View Factory is a callable object which takes page as a first argument, and returns instance of ft.View class.
 - For simplicity, we can use view factory method of page: `page.get_view`
 - Let create a simple flutter view example in file main_app.py:
     ```python
