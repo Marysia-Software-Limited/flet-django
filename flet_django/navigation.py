@@ -5,12 +5,12 @@ from typing import Optional, List, Callable
 import flet as ft
 from flet_core import Control
 
-from flet_django.types import PAGE_CLASS, DESTINATION_CLASS
+from flet_django.types import CLIENT_CLASS, DESTINATION_CLASS
 
 
 @dataclass
 class Navigare(ABC):
-    page: PAGE_CLASS
+    page: CLIENT_CLASS
     destinations: Optional[List[DESTINATION_CLASS]] = field(default_factory=list)
     selected_index: Optional[int] = None
 
@@ -70,7 +70,7 @@ class Navigare(ABC):
 
 
 @dataclass
-class Fatum(ABC):
+class Destiny(ABC):
     route: str
     icon: Optional[str] = None
     icon_content: Optional[Control] = None

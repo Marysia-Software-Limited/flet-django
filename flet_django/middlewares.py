@@ -9,12 +9,12 @@ import flet as ft
 from flet_core import Control
 
 from .routes import FtViewRoute
-from .types import PAGE_CLASS
+from .types import CLIENT_CLASS
 
 
 @dataclass
 class GenericMiddleware(ABC):
-    page: PAGE_CLASS
+    page: CLIENT_CLASS
     route: str
 
     def parse_route(self):
@@ -27,13 +27,13 @@ class GenericMiddleware(ABC):
 def simple_view_middleware(
     controls: Optional[list[Control]] = None,
     text: Optional[str] = None,
-    view: Optional[Callable[[PAGE_CLASS], ft.View]] = None,
+    view: Optional[Callable[[CLIENT_CLASS], ft.View]] = None,
     **kwargs
 ):
     if controls is None:
         controls = [ft.Text(text)]
     if view is None:
-        def __view(page: PAGE_CLASS):
+        def __view(page: CLIENT_CLASS):
             return page.get_view(
                 controls=controls,
                 **kwargs

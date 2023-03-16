@@ -6,7 +6,7 @@ from typing import Union
 import flet as ft
 from flet_core import Control
 
-from flet_django.types import PAGE_CLASS
+from flet_django.types import CLIENT_CLASS
 
 
 def get_app_bar(page, title: str = '', action_params: Optional[dict] = None, **kwargs) -> ft.AppBar:
@@ -23,7 +23,7 @@ def get_app_bar(page, title: str = '', action_params: Optional[dict] = None, **k
 
 @dataclass
 class GenericViewFactory:
-    page: PAGE_CLASS
+    page: CLIENT_CLASS
     kwargs: dict = field(default_factory=dict)
 
     def get_view(self, controls, **kwargs):
@@ -86,7 +86,7 @@ class GenericViewFactory:
 
 
 def ft_view(
-    page: PAGE_CLASS,
+    page: CLIENT_CLASS,
     controls: list[Control],
     nav_bar_params: Optional[dict] = None,
     app_bar_params: Optional[dict] = None,

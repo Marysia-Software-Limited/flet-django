@@ -83,7 +83,7 @@ I hate boilerplate code. I hated it all my life. I made so many steps to remove 
     import flet as ft
     from django.urls import path
     from flet_django.pages import GenericApp
-    from flet_django.navigation import Fatum
+    from flet_django.navigation import Destiny
 
     def home(page):
         return page.get_view(
@@ -93,7 +93,7 @@ I hate boilerplate code. I hated it all my life. I made so many steps to remove 
         )
 
     destinations = [
-        Fatum(
+        Destiny(
             route="/",
             icon=ft.icons.HOME,
             selected_icon=ft.icons.HOME_OUTLINED,

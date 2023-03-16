@@ -11,9 +11,9 @@ from flet_core import Control
 from django.conf import settings
 
 from .middlewares import GenericMiddleware, urls_middleware, simple_view_middleware
-from .navigation import Fatum, Navigare
+from .navigation import Destiny, Navigare
 from .views import GenericViewFactory
-from .types import PAGE_CLASS
+from .types import CLIENT_CLASS
 
 
 @dataclass
@@ -21,14 +21,14 @@ class GenericApp:
     middlewares: list[Type[GenericMiddleware]] = field(default_factory=list)
     urls: Optional[Iterable] = None
     controls: Optional[list[Control]] = None
-    view: Optional[Callable[[PAGE_CLASS], ft.View]] = None
+    view: Optional[Callable[[CLIENT_CLASS], ft.View]] = None
     text: Optional[str] = None
-    destinations: Optional[List[Fatum]] = None
-    page_class: Optional[Type[PAGE_CLASS]] = None
+    destinations: Optional[List[Destiny]] = None
+    page_class: Optional[Type[CLIENT_CLASS]] = None
     view_params: dict = field(default_factory=dict)
     init_route: str = '/'
     view_factory: Callable[
-            [PAGE_CLASS],
+            [CLIENT_CLASS],
             Callable[
                 [list[Control], ...],
                 ft.View
