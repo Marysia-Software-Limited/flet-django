@@ -1,14 +1,14 @@
 import flet as ft
 from django.urls import include, path
 
-from flet_django.pages import GenericPage, GenericApp
+from flet_django.pages import GenericClient, GenericApp
 from flet_django.navigation import Destiny
 
 import tasks.ft_urls
 from tasks.todo_app import TodoApp
 
 
-def home(page: GenericPage):
+def home(page: GenericClient):
     return page.get_view(
         controls=[TodoApp()],
         app_bar_params=dict(title="ToDo app")

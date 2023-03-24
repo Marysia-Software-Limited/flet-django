@@ -24,7 +24,7 @@ class GenericApp:
     view: Optional[Callable[[CLIENT_CLASS], ft.View]] = None
     text: Optional[str] = None
     destinations: Optional[List[Destiny]] = None
-    page_class: Optional[Type[CLIENT_CLASS]] = None
+    client_class: Optional[Type[CLIENT_CLASS]] = None
     view_params: dict = field(default_factory=dict)
     init_route: str = '/'
     view_factory: Callable[
@@ -37,7 +37,7 @@ class GenericApp:
 
     def __call__(self, page):
         page.scroll = ft.ScrollMode.ALWAYS
-        return self.page_class(app=self, ft_page=page)
+        return self.client_class(app=self, page=page)
 
     def __post_init__(self):
 
@@ -49,8 +49,8 @@ class GenericApp:
         except Exception as _:
             self.SessionStore = lambda: {}
 
-        if self.page_class is None:
-            self.page_class = GenericPage
+        if self.client_class is None:
+            self.client_class = GenericClient
 
         if self.urls is not None:
             self.middlewares.append(urls_middleware(urls=tuple(self.urls)))
@@ -61,9 +61,9 @@ class GenericApp:
 
 
 @dataclass
-class GenericPage:
+class GenericClient:
     app: GenericApp
-    ft_page: ft.Page
+    page: ft.Page
     navigation: Optional[Navigare] = None
     on_route_change: Optional[Callable[[ft.RouteChangeEvent], None]] = None
     on_view_pop: Optional[Callable[[ft.ViewPopEvent], None]] = None
@@ -75,10 +75,10 @@ class GenericPage:
             self.navigation = self.navigation or Navigare(self, self.app.destinations)
 
         self.session = self.app.SessionStore()
-        self.ft_page.on_route_change = self._route_change
-        self.ft_page.on_view_pop = self._pop_view
+        self.page.on_route_change = self._route_change
+        self.page.on_view_pop = self._pop_view
 
-        self.ft_page.views.pop()  # remove empty view from top
+        self.page.views.pop()  # remove empty view from top
 
         self.route = self.app.init_route
 
@@ -128,27 +128,27 @@ class GenericPage:
 
     @property
     def dialog(self) -> Optional[ft.AlertDialog]:
-        return self.ft_page.dialog if self.ft_page else None
+        return self.page.dialog if self.page else None
 
     @dialog.setter
     def dialog(self, new_dialog: ft.AlertDialog):
-        self.ft_page.dialog = new_dialog
+        self.page.dialog = new_dialog
         new_dialog.open = True
         self.update()
 
     def append_view(self, view: Callable):
         view_control = view(self)
-        self.ft_page.views.append(view_control)
+        self.page.views.append(view_control)
 
     def update(self, *controls):
-        self.ft_page.update(*controls)
+        self.page.update(*controls)
 
     def go(self, route: str):
         self.route = route
 
     def pop(self) -> None:
-        if len(self.ft_page.views) == 1:
+        if len(self.page.views) == 1:
             return
-        self.ft_page.views.pop()
-        top_view = self.ft_page.views[-1]
-        self.ft_page.go(top_view.route)
+        self.page.views.pop()
+        top_view = self.page.views[-1]
+        self.page.go(top_view.route)

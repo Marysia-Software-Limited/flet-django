@@ -9,7 +9,7 @@ I hate boilerplate code. I hated it all my life. I made so many steps to remove 
 * [x] Create package for a framework
 * [x] Create environment for generic Flutter app
   * [x] GenericApp class for a new Flutter application
-  * [x] GenericPage class for a new Flutter application instance
+  * [x] GenericClient class for a new Flutter application instance
   * [x] GenericView class to easily create routed Flutter views
   * [x] Generic middleware class for flexible management of Flutter view routing process
   * [x] UrlsMiddleware class for implementing Django urls based routing

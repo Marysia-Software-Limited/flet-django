@@ -4,12 +4,12 @@ import flet as ft
 from dateutil import relativedelta
 
 from flet_django.controls import ModelTableControl
-from flet_django.pages import GenericPage
+from flet_django.pages import GenericClient
 from flet_django.views import ft_view
 from tasks.models import Task
 
 
-def tasks(page: GenericPage, date_from=None, period: relativedelta = None, title: str = "Tasks"):
+def tasks(page: GenericClient, date_from=None, period: relativedelta = None, title: str = "Tasks"):
     filters = {}
     if date_from is not None:
         filters["date_add__gte"] = date_from
@@ -25,7 +25,7 @@ def tasks(page: GenericPage, date_from=None, period: relativedelta = None, title
     )
 
 
-def month_archive(page: GenericPage, year: int, month: int):
+def month_archive(page: GenericClient, year: int, month: int):
     return tasks(
         page,
         datetime.datetime(year=year, month=month, day=1),
@@ -34,7 +34,7 @@ def month_archive(page: GenericPage, year: int, month: int):
     )
 
 
-def year_archive(page: GenericPage, year: int):
+def year_archive(page: GenericClient, year: int):
     return tasks(
         page,
         datetime.datetime(year=year, month=1, day=1),
@@ -43,7 +43,7 @@ def year_archive(page: GenericPage, year: int):
     )
 
 
-def tasks_2003(page: GenericPage):
+def tasks_2003(page: GenericClient):
     return tasks(
         page,
         datetime.datetime(year=2023, month=1, day=1),

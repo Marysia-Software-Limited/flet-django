@@ -23,20 +23,20 @@ def get_app_bar(page, title: str = '', action_params: Optional[dict] = None, **k
 
 @dataclass
 class GenericViewFactory:
-    page: CLIENT_CLASS
+    client: CLIENT_CLASS
     kwargs: dict = field(default_factory=dict)
 
     def get_view(self, controls, **kwargs):
         return ft.View(controls=controls, **kwargs)
 
     def set_nav_bar(self, controls, **nav_bar_params):
-        if self.page.navigation:
+        if self.client.navigation:
             nav_bar = self.nav_bar_factory(**nav_bar_params)
             controls.append(nav_bar)
         return controls
 
     def nav_bar_factory(self, **nav_bar_params) -> ft.NavigationBar:
-        return self.page.navigation.get_bar(**nav_bar_params)
+        return self.client.navigation.get_bar(**nav_bar_params)
 
     def set_app_bar(self, controls, **app_bar_params):
         if app_bar_params:
@@ -45,7 +45,7 @@ class GenericViewFactory:
         return controls
 
     def app_bar_factory(self, **app_bar_params) -> ft.AppBar:
-        return get_app_bar(self.page, **app_bar_params)
+        return get_app_bar(self.client, **app_bar_params)
 
     def __call__(self,
                  controls: list[Control],
