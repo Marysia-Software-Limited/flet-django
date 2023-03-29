@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flet-django"
-version = "0.4.2"
+version = "0.4.3"
 description = "Django Flutter Framework."
 license = "MIT"
 authors = ["beret <beret@hipisi.org.pl>"]  # Here is a place for You'r name, contributors welcome!
