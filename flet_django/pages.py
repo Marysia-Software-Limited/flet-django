@@ -28,12 +28,12 @@ class GenericApp:
     view_params: dict = field(default_factory=dict)
     init_route: str = '/'
     view_factory: Callable[
-            [CLIENT_CLASS],
-            Callable[
-                [list[Control], ...],
-                ft.View
-            ],
-        ] = GenericViewFactory
+        [CLIENT_CLASS],
+        Callable[
+            [list[Control], ...],
+            ft.View
+        ],
+    ] = GenericViewFactory
 
     def __call__(self, page):
         page.scroll = ft.ScrollMode.ALWAYS
@@ -68,6 +68,8 @@ class GenericClient:
     on_route_change: Optional[Callable[[ft.RouteChangeEvent], None]] = None
     on_view_pop: Optional[Callable[[ft.ViewPopEvent], None]] = None
     __current_route: Optional[str] = None
+    __bs: Optional[ft.BottomSheet] = None
+    __dialog: Optional[ft.AlertDialog] = None
 
     def __post_init__(self) -> None:
 
@@ -93,6 +95,80 @@ class GenericClient:
             self.pop()
         else:
             self.on_view_pop(e)
+
+    @property
+    def bs(self):
+        def on_dismiss(e):
+            self.page.overlay.pop(self.__bs)
+            self.__bs = None
+
+        if self.__bs is None:
+            self.__bs = ft.BottomSheet(
+                open=False,
+                on_dismiss=on_dismiss,
+            )
+            self.page.overlay.append(self.__bs)
+            self.__bs.show = self.bs_show
+            self.__bs.hide = self.bs_hide
+        return self.__bs
+
+    @bs.setter
+    def bs(self, content: ft.Control):
+        self.bs.content = content
+        self.bs.open = True
+        self.page.update()
+
+    def bs_show(self):
+        self.bs.open = True
+        self.page.update()
+
+    def bs_hide(self):
+        self.bs.open = False
+        self.page.update()
+
+    @property
+    def dialog(self):
+        def on_dismiss(e):
+            self.page.dialog = None
+            self.page.update()
+            self.__dialog = None
+
+        if self.__dialog is None:
+            self.__dialog = ft.AlertDialog(
+                modal=True,
+                actions_alignment=ft.MainAxisAlignment.END,
+                on_dismiss=on_dismiss,
+            )
+            self.page.dialog = self.__dialog
+            self.__dialog.show = self.dialog_show
+            self.__dialog.hide = self.dialog_hide
+        return self.__dialog
+
+    @dialog.setter
+    def dialog(self, new_dialog: ft.AlertDialog):
+        self.__dialog = new_dialog
+        self.page.dialog = self.__dialog
+        self.page.update()
+
+    def update_dialog(self, content: ft.Control, actions=None, show=None, title=None):
+        self.dialog.content = content
+        self.dialog.actions = actions or []
+
+        if title is not None:
+            self.dialog.title = ft.Text(title)
+
+        if show is not None:
+            self.dialog.open = show
+
+        self.page.update()
+
+    def dialog_show(self):
+        self.dialog.open = True
+        self.page.update()
+
+    def dialog_hide(self):
+        self.dialog.open = False
+        self.page.update()
 
     @property
     def get_view(self):
@@ -124,16 +200,6 @@ class GenericClient:
         self.__current_route = route
         view = self.parse_route(route)
         self.append_view(view)
-        self.update()
-
-    @property
-    def dialog(self) -> Optional[ft.AlertDialog]:
-        return self.page.dialog if self.page else None
-
-    @dialog.setter
-    def dialog(self, new_dialog: ft.AlertDialog):
-        self.page.dialog = new_dialog
-        new_dialog.open = True
         self.update()
 
     def append_view(self, view: Callable):
